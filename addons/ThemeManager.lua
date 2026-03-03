@@ -179,7 +179,12 @@ do
             if idx == "VideoLink" then
                 continue
             elseif idx == "FontFace" then
-                self.Library:SetFont(Enum.Font[val])
+                -- ИСПРАВЛЕНО: проверяем наличие нового метода SetFont
+                if self.Library.SetFont then
+                    self.Library:SetFont(val)  -- передаем строку
+                else
+                    self.Library:SetFont(Enum.Font[val])  -- старый способ
+                end
 
                 if self.Library.Options[idx] then
                     self.Library.Options[idx]:SetValue(val)
@@ -491,7 +496,12 @@ do
         self.Library.Options.OutlineColor:OnChanged(UpdateTheme)
         self.Library.Options.FontColor:OnChanged(UpdateTheme)
         self.Library.Options.FontFace:OnChanged(function(Value)
-            self.Library:SetFont(Enum.Font[Value])
+            -- ИСПРАВЛЕНО: здесь тоже добавил проверку
+            if self.Library.SetFont then
+                self.Library:SetFont(Value)
+            else
+                self.Library:SetFont(Enum.Font[Value])
+            end
             self.Library:UpdateColorsUsingRegistry()
         end)
     end
