@@ -365,12 +365,11 @@ do
             :AddLabel("Outline color")
             :AddColorPicker("OutlineColor", { Default = self.Library.Scheme.OutlineColor })
         groupbox:AddLabel("Font color"):AddColorPicker("FontColor", { Default = self.Library.Scheme.FontColor })
-local fontValues = self.Library.AvailableFonts or { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" }
-groupbox:AddDropdown("FontFace", {
-    Text = "Font Face",
-    Default = "Code",
-    Values = fontValues,
-})
+        groupbox:AddDropdown("FontFace", {
+            Text = "Font Face",
+            Default = "Code",
+            Values = { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" },
+        })
 
         local ThemesArray = {}
         for Name, Theme in pairs(self.BuiltInThemes) do
@@ -484,18 +483,7 @@ groupbox:AddDropdown("FontFace", {
         self.Library.Options.OutlineColor:OnChanged(UpdateTheme)
         self.Library.Options.FontColor:OnChanged(UpdateTheme)
         self.Library.Options.FontFace:OnChanged(function(Value)
-        elseif idx == "FontFace" then
-    -- Проверяем, есть ли в библиотеке новый метод SetFont, и используем его
-    if self.Library.SetFont then
-        self.Library:SetFont(val) -- Передаем имя шрифта как строку (например, "Verdana")
-    else
-        -- Если нет, используем старый способ (для обратной совместимости)
-        self.Library:SetFont(Enum.Font[val])
-    end
-
-    if self.Library.Options[idx] then
-        self.Library.Options[idx]:SetValue(val)
-    end
+            self.Library:SetFont(Enum.Font[Value])
             self.Library:UpdateColorsUsingRegistry()
         end)
     end
