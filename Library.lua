@@ -8170,6 +8170,8 @@ local FontsToLoad = {
 	{ Name = "Verdana Pro", FileName = "VerdanaPro-Regular.ttf" },
 	{ Name = "Verdana Bold", FileName = "VerdanaBd.ttf" },
     { Name = "SmallestPixel", FileName = "smallest_pixel-7.ttf" },
+	{ Name = "Montserrat Regular", FileName = "Montserrat-Regular.ttf" },
+	{ Name = "Montserrat Medium", FileName = "Montserrat-Medium.ttf" },
 }
 
 local FONT_BASE_URL = "https://github.com/qwxyukari/storage/raw/refs/heads/main/fonts/"
