@@ -8158,8 +8158,9 @@ local function OnTeamChange()
 end
 
 -- =============================================================================
--- ИСПРАВЛЕННЫЙ код для кастомных шрифтов
+-- ПОЛНОСТЬЮ ИСПРАВЛЕННЫЙ код для кастомных шрифтов
 -- =============================================================================
+local HttpService = game:GetService("HttpService")  -- ← ВАЖНО: добавляем HttpService
 local FontManager = {}
 local RegisteredFonts = {}
 
@@ -8211,8 +8212,9 @@ local function createFontFile(fontName, ttfPath)
         }
     }
     
-    -- Сохраняем JSON
-    writefile(fontFilePath, HttpService:JSONEncode(fontData))
+    -- Сохраняем JSON используя HttpService
+    local jsonData = HttpService:JSONEncode(fontData)
+    writefile(fontFilePath, jsonData)
     
     return getcustomasset(fontFilePath)
 end
@@ -8239,7 +8241,7 @@ function Library:LoadCustomFonts()
         if not success then
             warn("❌ Ошибка скачивания " .. fontInfo.FileName .. ": " .. tostring(err))
         end
-        RunService.Heartbeat:Wait()
+        task.wait(0.1)
     end
     
     -- Теперь создаем .font файлы и регистрируем шрифты
@@ -8264,18 +8266,13 @@ function Library:LoadCustomFonts()
                 Enum.FontStyle.Normal
             )
             
-            -- Проверяем, что шрифт создался корректно
-            local testLabel = Instance.new("TextLabel")
-            testLabel.FontFace = RegisteredFonts[fontName]
-            testLabel:Destroy()
-            
             print("   ✅ Зарегистрирован: " .. fontName)
         end)
         
         if not success then
             warn("❌ Ошибка регистрации шрифта " .. fontInfo.Name .. ": " .. tostring(err))
         end
-        RunService.Heartbeat:Wait()
+        task.wait(0.1)
     end
     
     print("✅ Все кастомные шрифты загружены!")
@@ -8296,15 +8293,21 @@ function Library:LoadCustomFonts()
 end
 
 function Library:GetFont(fontName)
+    -- Сначала проверяем кастомные шрифты
     if RegisteredFonts[fontName] then
         return RegisteredFonts[fontName]
     end
     
-    local robloxFont = Enum.Font[fontName]
-    if robloxFont then
-        return Font.fromEnum(robloxFont)
+    -- Потом стандартные шрифты Roblox
+    local success, result = pcall(function()
+        return Font.fromEnum(Enum.Font[fontName])
+    end)
+    
+    if success and result then
+        return result
     end
     
+    -- Если ничего не нашли, возвращаем шрифт по умолчанию
     return self.Scheme.Font
 end
 
@@ -8341,8 +8344,12 @@ end
 
 -- Запускаем загрузку шрифтов
 task.spawn(function()
+    task.wait(1)  -- Даем время на инициализацию библиотеки
     Library:LoadCustomFonts()
 end)
+-- =============================================================================
+-- КОНЕЦ исправленного кода
+-- =============================================================================
 
 Library:GiveSignal(Players.PlayerAdded:Connect(OnPlayerChange))
 Library:GiveSignal(Players.PlayerRemoving:Connect(OnPlayerChange))
