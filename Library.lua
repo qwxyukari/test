@@ -8166,16 +8166,12 @@ local RegisteredFonts = {}
 
 local FontsToLoad = {
     { Name = "Comfortaa", FileName = "Comfortaa-Regular.ttf" },
-    { Name = "ProggyClean", FileName = "ProggyClean.ttf" },
-    { Name = "Tahoma", FileName = "fs-tahoma-8px.ttf" },
-    { Name = "Verdana", FileName = "Verdana-Font.ttf" },
-	{ Name = "Verdana 2", FileName = "Verdana.ttf" },
+    { Name = "Verdana", FileName = "Verdana.ttf" },
 	{ Name = "Verdana Bold", FileName = "VerdanaBd.ttf" },
     { Name = "SmallestPixel", FileName = "smallest_pixel-7.ttf" },
-    { Name = "ProggyTiny", FileName = "ProggyTiny.ttf" },
-    { Name = "Minecraftia", FileName = "Minecraftia-Regular.ttf" },
-    { Name = "Tahoma Bold", FileName = "tahoma_bold.ttf" },
-    { Name = "Rubik", FileName = "Rubik-Regular.ttf" },
+	{ Name = "Verdana english", FileName = "verdana-english.ttf" },
+	{ Name = "Verdana Pro", FileName = "VerdanaPro-Regular.ttf" },
+	{ Name = "Verdana Cond", FileName = "VerdanaPro-CondRegular.ttf" },
 }
 
 local FONT_BASE_URL = "https://github.com/qwxyukari/storage/raw/refs/heads/main/fonts/"
