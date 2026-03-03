@@ -484,7 +484,18 @@ groupbox:AddDropdown("FontFace", {
         self.Library.Options.OutlineColor:OnChanged(UpdateTheme)
         self.Library.Options.FontColor:OnChanged(UpdateTheme)
         self.Library.Options.FontFace:OnChanged(function(Value)
-            self.Library:SetFont([Value])
+        elseif idx == "FontFace" then
+    -- Проверяем, есть ли в библиотеке новый метод SetFont, и используем его
+    if self.Library.SetFont then
+        self.Library:SetFont(val) -- Передаем имя шрифта как строку (например, "Verdana")
+    else
+        -- Если нет, используем старый способ (для обратной совместимости)
+        self.Library:SetFont(Enum.Font[val])
+    end
+
+    if self.Library.Options[idx] then
+        self.Library.Options[idx]:SetValue(val)
+    end
             self.Library:UpdateColorsUsingRegistry()
         end)
     end
