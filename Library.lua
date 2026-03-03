@@ -8205,7 +8205,7 @@ local function createFontFile(fontName, ttfPath)
         faces = {
             {
                 name = "Regular",
-                weight = 400,
+                weight = 100,
                 style = "Normal",
                 assetId = getcustomasset(ttfPath)
             }
