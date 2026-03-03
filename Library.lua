@@ -8165,9 +8165,12 @@ local FontManager = {}
 local RegisteredFonts = {}
 
 local FontsToLoad = {
+    { Name = "Comfortaa", FileName = "Comfortaa-Regular.ttf" },
     { Name = "ProggyClean", FileName = "ProggyClean.ttf" },
     { Name = "Tahoma", FileName = "fs-tahoma-8px.ttf" },
     { Name = "Verdana", FileName = "Verdana-Font.ttf" },
+	{ Name = "Verdana 2", FileName = "Verdana.ttf" },
+	{ Name = "Verdana Bold", FileName = "VerdanaBd.ttf" },
     { Name = "SmallestPixel", FileName = "smallest_pixel-7.ttf" },
     { Name = "ProggyTiny", FileName = "ProggyTiny.ttf" },
     { Name = "Minecraftia", FileName = "Minecraftia-Regular.ttf" },
@@ -8175,7 +8178,7 @@ local FontsToLoad = {
     { Name = "Rubik", FileName = "Rubik-Regular.ttf" },
 }
 
-local FONT_BASE_URL = "https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/"
+local FONT_BASE_URL = "https://github.com/qwxyukari/storage/raw/refs/heads/main/fonts/"
 local FONTS_FOLDER = "Obsidian/fonts"
 
 local function ensureFolderExists(path)
@@ -8205,7 +8208,7 @@ local function createFontFile(fontName, ttfPath)
         faces = {
             {
                 name = "Regular",
-                weight = 100,
+                weight = 400,
                 style = "Normal",
                 assetId = getcustomasset(ttfPath)
             }
