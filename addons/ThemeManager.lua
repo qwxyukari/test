@@ -379,7 +379,7 @@ do
                 -- Стандартные шрифты Roblox
                 "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans",
                 -- Новые кастомные шрифты
-                "ProggyClean", "Tahoma", "Verdana", "SmallestPixel", "ProggyTiny", "Minecraftia", "Tahoma Bold", "Rubik"
+                "Comfortaa", "ProggyClean", "Tahoma", "Verdana", "Verdana 2", "Verdana Bold", "SmallestPixel", "ProggyTiny", "Minecraftia", "Tahoma Bold", "Rubik"
             },
         })
         -- ====================================================
