@@ -374,12 +374,12 @@ do
         -- ===== ИЗМЕНЕНО: Добавлены новые шрифты в список =====
         groupbox:AddDropdown("FontFace", {
             Text = "Font Face",
-            Default = "Code",
+            Default = "Gotham",
             Values = { 
                 -- Стандартные шрифты Roblox
-                "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans",
+                "Gotham", "BuilderSans", "JosefinSans", "Jura", "RobotoMono", "Legacy",
                 -- Новые кастомные шрифты
-                "Comfortaa", "Verdana", "Verdana 2", "Verdana Bold", "SmallestPixel", "Verdana english", "Verdana Pro", "Verdana Cond"
+                "Verdana Pro", "Verdana Bold", "Comfortaa", "SmallestPixel", "Verdana"
             },
         })
         -- ====================================================
