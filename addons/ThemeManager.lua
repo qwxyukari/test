@@ -365,11 +365,19 @@ do
             :AddLabel("Outline color")
             :AddColorPicker("OutlineColor", { Default = self.Library.Scheme.OutlineColor })
         groupbox:AddLabel("Font color"):AddColorPicker("FontColor", { Default = self.Library.Scheme.FontColor })
+        
+        -- ===== ИЗМЕНЕНО: Добавлены новые шрифты в список =====
         groupbox:AddDropdown("FontFace", {
             Text = "Font Face",
             Default = "Code",
-            Values = { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" },
+            Values = { 
+                -- Стандартные шрифты Roblox
+                "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans",
+                -- Новые кастомные шрифты
+                "ProggyClean", "Tahoma", "Verdana", "SmallestPixel", "ProggyTiny", "Minecraftia", "Tahoma Bold", "Rubik"
+            },
         })
+        -- ====================================================
 
         local ThemesArray = {}
         for Name, Theme in pairs(self.BuiltInThemes) do
