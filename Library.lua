@@ -143,129 +143,6 @@ do
     end
 end
 
-local FontManager = {}
-local RegisteredFonts = {}
-
-local FontsToLoad = {
-    { Name = "ProggyClean", FileName = "ProggyClean.ttf" },
-    { Name = "Tahoma", FileName = "fs-tahoma-8px.ttf" },
-    { Name = "Verdana", FileName = "Verdana-Font.ttf" },
-    { Name = "SmallestPixel", FileName = "smallest_pixel-7.ttf" },
-    { Name = "ProggyTiny", FileName = "ProggyTiny.ttf" },
-    { Name = "Minecraftia", FileName = "Minecraftia-Regular.ttf" },
-    { Name = "Tahoma Bold", FileName = "tahoma_bold.ttf" },
-    { Name = "Rubik", FileName = "Rubik-Regular.ttf" },
-}
-
--- Базовая ссылка на GitHub (папка со шрифтами)
-local FONT_BASE_URL = "https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/"
-local FONTS_FOLDER = "Obsidian/fonts"
-
--- Функция для создания папок (если её еще нет в библиотеке)
-local function ensureFolderExists(path)
-    if not isfolder or not makefolder then return end
-    local segments = path:split("/")
-    local currentPath = ""
-    for i, segment in ipairs(segments) do
-        currentPath = currentPath .. segment
-        if not isfolder(currentPath) then
-            makefolder(currentPath)
-        end
-        if i < #segments then currentPath = currentPath .. "/" end
-    end
-end
-
--- Функция загрузки и регистрации шрифтов
-function Library:LoadCustomFonts()
-    print("📦 Загрузка шрифтов...")
-    ensureFolderExists(FONTS_FOLDER)
-
-    for _, fontInfo in ipairs(FontsToLoad) do
-        local success, err = pcall(function()
-            local fontName = fontInfo.Name
-            local fileName = fontInfo.FileName
-            local filePath = string.format("%s/%s", FONTS_FOLDER, fileName)
-
-            if not isfile(filePath) then
-                print("   ⬇️ Скачивание: " .. fileName)
-                local fontData = game:HttpGet(FONT_BASE_URL .. fileName)
-                writefile(filePath, fontData)
-            else
-                print("   ✅ Уже скачан: " .. fileName)
-            end
-
-            local customAssetPath = getcustomasset(filePath)
-
-            RegisteredFonts[fontName] = Font.new(
-                customAssetPath,
-                Enum.FontWeight.Regular,
-                Enum.FontStyle.Normal
-            )
-            print("   ✅ Зарегистрирован: " .. fontName)
-        end)
-
-        if not success then
-            warn("❌ Ошибка загрузки шрифта " .. fontInfo.Name .. ": " .. tostring(err))
-        end
-        RunService.Heartbeat:Wait()
-    end
-    print("✅ Все кастомные шрифты загружены!")
-
-    Library.AvailableFonts = {}
-    for _, fontInfo in ipairs(FontsToLoad) do
-        table.insert(Library.AvailableFonts, fontInfo.Name)
-    end
-
-    local robloxFonts = { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" }
-    for _, fontName in ipairs(robloxFonts) do
-        table.insert(Library.AvailableFonts, fontName)
-    end
-    table.sort(Library.AvailableFonts)
-end
-
-function Library:GetFont(fontName)
-    if RegisteredFonts[fontName] then
-        return RegisteredFonts[fontName]
-    end
-
-    local robloxFont = Enum.Font[fontName]
-    if robloxFont then
-        return Font.fromEnum(robloxFont)
-    end
-
-    return self.Scheme.Font
-end
-
-function Library:SetFont(fontName)
-    local newFont = self:GetFont(fontName)
-    if not newFont then
-        warn("Font not found:", fontName)
-        return
-    end
-
-    self.Scheme.Font = newFont
-
-    for _, element in pairs(self.Registry or {}) do
-        if element.Instance then
-
-            local function updateFont(instance)
-                if instance:IsA("TextLabel") or instance:IsA("TextButton") or instance:IsA("TextBox") then
-                    instance.FontFace = newFont
-                end
-                for _, child in ipairs(instance:GetChildren()) do
-                    updateFont(child)
-                end
-            end
-            updateFont(element.Instance)
-        end
-    end
-end
-
--- Запускаем загрузку шрифтов
-task.spawn(function()
-    Library:LoadCustomFonts()
-end)
-
 local Library = {
     LocalPlayer = LocalPlayer,
     DevicePlatform = nil,
@@ -8279,6 +8156,134 @@ local function OnTeamChange()
         end
     end
 end
+
+-- ... (весь предыдущий код библиотеки, объявление Library, Templates и т.д.) ...
+
+-- ВОТ ЗДЕСЬ, ПОСЛЕ ВСЕГО КОДА, НО ПЕРЕД RETURN
+-- =============================================================================
+-- Код для кастомных шрифтов (ПЕРЕМЕЩЕН СЮДА)
+-- =============================================================================
+local FontManager = {}
+local RegisteredFonts = {}
+
+-- Список шрифтов для загрузки
+local FontsToLoad = {
+    { Name = "ProggyClean", FileName = "ProggyClean.ttf" },
+    { Name = "Tahoma", FileName = "fs-tahoma-8px.ttf" },
+    { Name = "Verdana", FileName = "Verdana-Font.ttf" },
+    { Name = "SmallestPixel", FileName = "smallest_pixel-7.ttf" },
+    { Name = "ProggyTiny", FileName = "ProggyTiny.ttf" },
+    { Name = "Minecraftia", FileName = "Minecraftia-Regular.ttf" },
+    { Name = "Tahoma Bold", FileName = "tahoma_bold.ttf" },
+    { Name = "Rubik", FileName = "Rubik-Regular.ttf" },
+}
+
+local FONT_BASE_URL = "https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/"
+local FONTS_FOLDER = "Obsidian/fonts"
+
+local function ensureFolderExists(path)
+    if not isfolder or not makefolder then return end
+    local segments = path:split("/")
+    local currentPath = ""
+    for i, segment in ipairs(segments) do
+        currentPath = currentPath .. segment
+        if not isfolder(currentPath) then
+            makefolder(currentPath)
+        end
+        if i < #segments then currentPath = currentPath .. "/" end
+    end
+end
+
+function Library:LoadCustomFonts()
+    print("📦 Загрузка шрифтов...")
+    ensureFolderExists(FONTS_FOLDER)
+
+    for _, fontInfo in ipairs(FontsToLoad) do
+        local success, err = pcall(function()
+            local fontName = fontInfo.Name
+            local fileName = fontInfo.FileName
+            local filePath = string.format("%s/%s", FONTS_FOLDER, fileName)
+
+            if not isfile(filePath) then
+                print("   ⬇️ Скачивание: " .. fileName)
+                local fontData = game:HttpGet(FONT_BASE_URL .. fileName)
+                writefile(filePath, fontData)
+            else
+                print("   ✅ Уже скачан: " .. fileName)
+            end
+
+            local customAssetPath = getcustomasset(filePath)
+
+            RegisteredFonts[fontName] = Font.new(
+                customAssetPath,
+                Enum.FontWeight.Regular,
+                Enum.FontStyle.Normal
+            )
+            print("   ✅ Зарегистрирован: " .. fontName)
+        end)
+
+        if not success then
+            warn("❌ Ошибка загрузки шрифта " .. fontInfo.Name .. ": " .. tostring(err))
+        end
+        RunService.Heartbeat:Wait()
+    end
+    print("✅ Все кастомные шрифты загружены!")
+
+    Library.AvailableFonts = {}
+    for _, fontInfo in ipairs(FontsToLoad) do
+        table.insert(Library.AvailableFonts, fontInfo.Name)
+    end
+
+    local robloxFonts = { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" }
+    for _, fontName in ipairs(robloxFonts) do
+        table.insert(Library.AvailableFonts, fontName)
+    end
+    table.sort(Library.AvailableFonts)
+end
+
+function Library:GetFont(fontName)
+    if RegisteredFonts[fontName] then
+        return RegisteredFonts[fontName]
+    end
+
+    local robloxFont = Enum.Font[fontName]
+    if robloxFont then
+        return Font.fromEnum(robloxFont)
+    end
+
+    return self.Scheme.Font
+end
+
+function Library:SetFont(fontName)
+    local newFont = self:GetFont(fontName)
+    if not newFont then
+        warn("Font not found:", fontName)
+        return
+    end
+
+    self.Scheme.Font = newFont
+
+    -- Обновляем все существующие элементы
+    for _, element in pairs(self.Registry or {}) do
+        if element.Instance then
+            local function updateFont(instance)
+                if instance:IsA("TextLabel") or instance:IsA("TextButton") or instance:IsA("TextBox") then
+                    instance.FontFace = newFont
+                end
+                for _, child in ipairs(instance:GetChildren()) do
+                    updateFont(child)
+                end
+            end
+            updateFont(element.Instance)
+        end
+    end
+end
+
+-- Запускаем загрузку шрифтов
+task.spawn(function()
+    Library:LoadCustomFonts()
+end)
+-- =============================================================================
 
 Library:GiveSignal(Players.PlayerAdded:Connect(OnPlayerChange))
 Library:GiveSignal(Players.PlayerRemoving:Connect(OnPlayerChange))
