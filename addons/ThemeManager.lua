@@ -377,9 +377,9 @@ do
             Default = "Gotham",
             Values = { 
                 -- Стандартные шрифты Roblox
-                "Gotham", "Montserrat", "BuilderSans", "JosefinSans", "Jura", "RobotoMono",
+                "Gotham", "BuilderSans", "JosefinSans", "Jura", "RobotoMono",
                 -- Новые кастомные шрифты
-                "Verdana Pro", "Verdana Bold", "Comfortaa", "SmallestPixel"
+                "Verdana Pro", "Verdana Bold", "Comfortaa", "Montserrat Regular", "Montserrat Medium", "SmallestPixel"
             },
         })
         -- ====================================================
