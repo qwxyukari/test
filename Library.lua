@@ -8166,12 +8166,10 @@ local RegisteredFonts = {}
 
 local FontsToLoad = {
     { Name = "Comfortaa", FileName = "Comfortaa-Regular.ttf" },
-    { Name = "Verdana", FileName = "Verdana.ttf" },
+    { Name = "Verdana", FileName = "Verdana.ttf" }, --only 82 dpi
+	{ Name = "Verdana Pro", FileName = "VerdanaPro-Regular.ttf" },
 	{ Name = "Verdana Bold", FileName = "VerdanaBd.ttf" },
     { Name = "SmallestPixel", FileName = "smallest_pixel-7.ttf" },
-	{ Name = "Verdana english", FileName = "verdana-english.ttf" },
-	{ Name = "Verdana Pro", FileName = "VerdanaPro-Regular.ttf" },
-	{ Name = "Verdana Cond", FileName = "VerdanaPro-CondRegular.ttf" },
 }
 
 local FONT_BASE_URL = "https://github.com/qwxyukari/storage/raw/refs/heads/main/fonts/"
